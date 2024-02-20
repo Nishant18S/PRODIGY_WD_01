@@ -4,17 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Navigation Menu</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/
-bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-</script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.
-js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
-</script>
-<meta name="view-port" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <style>
-
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -46,26 +40,109 @@ js"></script>
     }
 
     /* Add a class to change style when scrolled */
-    nav.scrolled 
-{
+    nav.scrolled {
       background-color: #555;
+    }
+
+    /* Smooth scrolling effect */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Hamburger menu styles */
+    .menu-toggle {
+      display: none;
+    }
+
+    .menu-toggle:checked + .menu {
+      display: block;
+    }
+
+    .menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      text-align: center;
+    }
+
+    .menu a {
+      display: block;
+      padding: 10px;
+      color: #fff;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .menu a:hover {
+      background-color: #555;
+    }
+
+    /* Blinking animation */
+    @keyframes animate {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .txt-blink {
+      animation: animate 1.5s linear infinite;
+    }
+
+    /* Dynamic background colors */
+    #home {
+      background-color: #f0f0f0;
+    }
+
+    #about {
+      background-color: #e0e0e0;
+    }
+
+    #services {
+      background-color: #d0d0d0;
+    }
+
+    #contact {
+      background-color: #c0c0c0;
     }
   </style>
 </head>
 <body>
-<blink> Hello , Am Nishant Sankar Swain</blink>
-<div class="container-fluid">
-  <nav id="main-nav">
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#" style="animation:animate 1.5s linear infinite"class="txt-blink">Contact</a>
-  </nav>
-</div>
-  <!-- Your content goes here -->
+  <!-- Mobile Menu Toggle -->
+  <input type="checkbox" id="menu-toggle" class="menu-toggle">
+  <label for="menu-toggle">&#9776;</label>
 
+  <!-- Navigation Menu -->
+  <div class="container-fluid">
+    <nav id="main-nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact" class="txt-blink">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="menu">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- Your content goes here -->
+  <div id="home" style="height: 1000px;">Home Section</div>
+  <div id="about" style="height: 1000px;">About Section</div>
+  <div id="services" style="height: 1000px;">Services Section</div>
+  <div id="contact" style="height: 1000px;">Contact Section</div>
+
+  <!-- JavaScript to add scrolling functionality -->
   <script>
-    // JavaScript to add scrolling functionality
     window.addEventListener('scroll', function() {
       var nav = document.getElementById('main-nav');
       if (window.scrollY > 50) {
@@ -73,7 +150,26 @@ js"></script>
       } else {
         nav.classList.remove('scrolled');
       }
+
+      // Dynamically change background color based on scroll position
+      var sections = document.querySelectorAll('div[id]');
+      sections.forEach(function(section) {
+        if (isInViewport(section)) {
+          document.body.style.backgroundColor = section.style.backgroundColor;
+        }
+      });
     });
+
+    // Function to check if element is in viewport
+    function isInViewport(element) {
+      var rect = element.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
   </script>
 </body>
 </html>
